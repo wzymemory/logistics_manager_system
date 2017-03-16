@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>index</title>
+    <link rel="stylesheet" type="text/css" href="../../assets/css/plugins/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../assets/css/plugins/bootstrap-table.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../assets/font-awesome-4.7.0/css/font-awesome.css"/>
+    <link rel="stylesheet" type="text/css" href="../../assets/css/plugins/normalize.css"/>
+    <link rel="stylesheet" type="text/css" href="../../assets/css/app/base.css"/>
+    <link rel="stylesheet" type="text/css" href="../../assets/css/plugins/animate.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../assets/css/app/style.css"/>
+</head>
+<body>
+<div class="container-fluid">
+    <!-- 左边菜单栏 -->
+    <div class="sidebar" id="sidebar" role="navigation">
+        <div class="logo">
+            <a href="/redirect/index">
+                <h1>物流英文名</h1>
+            </a>
+        </div>
+        <div class="side-menu">
+            <nav class="navbar" id="sidebar-wrapper" role="navigation" ng-controller="menuCtrl">
+                <ul class="nav sidebar-nav metismenu" id="menu">
+                    <li ng-repeat="x in Menus">
+                        <a ng-href="{{x.menuHref}}" target="Mainindex">
+                            <i ng-class="x.menuIClass" class="fa fa-fw"></i>
+                            <span class="sidebar-nav-item" ng-bind="x.menuName"></span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <!-- 右边部分 -->
+    <div class="main-content" ng-controller="MainContent">
+        <!-- 头部 -->
+        <div class="header" id="header" hidden>
+            <h2 class="col-sm-7 col-md-8 text-left">物流信息管理系统</h2>
+            <div class="col-sm-4 col-md-3" style="padding-top: 10px">
+                <div style="float: right">
+                    <ul class="nav nav-pills">
+                        <li class="dropdown all-camera-dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <span style="font-size: 25px" ng-bind="userTrueName" class="userNameColor" id="userNameInfo"></span>
+                                <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#editPWModal">修改密码</a></li>
+                                <li><a href="/user/logOut">退出</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="header" id="header2" hidden>
+            <h2 class="col-sm-4 col-md-3 text-left">欢迎来到balabala</h2>
+            <div class="col-sm-7 col-md-8 text-right header-right">
+                <a href="/login.html">登陆</a> | <a href="/register.html">注册</a>
+            </div>
+        </div>
+        <!-- 主要内容部分 -->
+        <div class="content">
+            <iframe ng-src="{{IframeSrc}}" id="Mainindex" name="Mainindex" width="100%" height="100%" marginheight="0" marginwidth="0" frameborder="0" scrolling="no" ></iframe>
+        </div>
+    </div>
+</div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="editPWModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    修改密码
+                </h4>
+            </div>
+            <div class="modal-body" style="padding-left: 200px">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <div style="width: 200px;">
+                            旧密码:<input type="password" class="form-control" id="oldPassword" required>
+                        </div>
+                        <div style="width: 200px;">
+                            新密码:<input type="password" class="form-control" id="newPassword"  required>
+                        </div>
+                        <div style="width: 200px;">
+                            确认密码:<input type="password" class="form-control"id="confirmPassword" required>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary" onclick="editPassword()">
+                    提交更改
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="editResult" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title">
+                    修改结果
+                </h4>
+            </div>
+            <div class="modal-body" style="padding-left: 200px" id="contentModal">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<script type="text/javascript" src="../../assets/js/plugins/require.js"></script>
+<script type="text/javascript">
+    require(['../../assets/js/common.js'], function () {
+        require(['app/style']);
+        require(['app/user'])
+    });
+</script>
+
+<script type="text/javascript">
+    function editPassword(){
+        var userNameInfo = $("#userNameInfo").html();
+        var oldPassword = $("#oldPassword").val();
+        var newPassword = $("#newPassword").val();
+        var confirmPassword = $("#confirmPassword").val();
+        if(newPassword!=confirmPassword){
+            alert("两次输入密码不一致");
+        }else{
+            if(userNameInfo!=""){
+                $.ajax({
+                    url: '/user/editPassword',
+                    async:false,
+                    data: {"userNameInfo":userNameInfo,"oldPassword":oldPassword,"newPassword":newPassword},
+                    type: 'get',
+                    dataType: "json",
+                    success: function (response) {
+                        $modal1 = $("#editPWModal");
+                        $modal2 = $("#editResult");
+                        $modal1.modal("hide")
+                        if(response['data']>0){
+                            $("#contentModal").html("")
+                            $("#contentModal").html("恭喜您，密码修改成功！")
+                        }else{
+                            $("#contentModal").html("")
+                            $("#contentModal").html("修改失败，请核实旧密码是否正确")
+                        }
+                        $modal2.modal("show")
+                    },
+                    error: function () {
+                        console.error("error show!");
+                    }
+                });
+            }
+        }
+    }
+</script>
+
+</body>
+</html>

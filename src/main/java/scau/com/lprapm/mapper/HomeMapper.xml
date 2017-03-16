@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="scau.com.lprapm.dao.HomeMapper" >
+  <resultMap id="DangerGoods" type="scau.com.lprapm.entity.DangerGoods" >
+    <id column="dangerGoods_id" property="dangerGoods_id" jdbcType="INTEGER" />
+    <result column="dangerGoods_type" property="dangerGoods_type" jdbcType="VARCHAR" />
+    <result column="dangerGoods_name" property="dangerGoods_name" jdbcType="VARCHAR" />
+    <result column="transportationByLand" property="transportationByLand" jdbcType="VARCHAR" />
+    <result column="transportationByAir" property="transportationByAir" jdbcType="VARCHAR" />
+    <result column="userNeedToKnow" property="userNeedToKnow" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="getDangerGoodsByName" parameterType="String" resultMap="DangerGoods"  >
+    select * from dangergoods where dangerGoods_name like concat(concat('%',#{dangerGoods_name}),'%')
+  </select>
+</mapper>

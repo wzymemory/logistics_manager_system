@@ -1,0 +1,166 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>首页</title>
+    <link rel="stylesheet" type="text/css" href="../../assets/css/plugins/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../assets/css/plugins/bootstrap-table.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../assets/css/plugins/jquery-confirm.css"/>
+    <link rel="stylesheet" type="text/css" href="../../assets/css/plugins/bootstrap-datetimepicker.css"/>
+    <link rel="stylesheet" type="text/css" href="../../assets/css/plugins/bootstrap-select.css"/>
+    <link rel="stylesheet" type="text/css" href="../../assets/css/plugins/animate.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../assets/font-awesome-4.7.0/css/font-awesome.css"/>
+    <link rel="stylesheet" type="text/css" href="../../assets/css/plugins/normalize.css"/>
+    <link rel="stylesheet" type="text/css" href="../../assets/css/app/base.css"/>
+    <link rel="stylesheet" type="text/css" href="../../assets/css/app/menu.css"/>
+    <link rel="stylesheet" type="text/css" href="../../assets/css/app/purchaseOrder.css"/>
+    <link href="http://hovertree.com/texiao/bootstrap/4/css/city-picker.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<div class="content-theme">
+    <h3>首页</h3>
+</div>
+<div class="content-nav">
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#orderTrack">订单跟踪</a></li>
+        <li><a data-toggle="tab" href="#selectTime">运费时效查询</a></li>
+        <li><a data-toggle="tab" href="#selectRange">收寄范围查询</a></li>
+        <li><a data-toggle="tab" href="#selectRule">收寄标准查询</a></li>
+    </ul>
+</div>
+<div class="content-main">
+    <div class="tab-content">
+        <!-- 订单跟踪 -->
+        <div id="orderTrack" class="tab-pane fade in active">
+            <div class="row content-main-panel">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">快递单号:</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" placeholder="请输入您的快递单号" id="courier_number" required>
+                        </div>
+                        <div class="col-sm-2" style="padding-top: 3px;padding-left: 20px">
+                            <button type="button" class="btn btn-primary" onclick="orderTrack()">查询</button>
+                        </div>
+                    </div>
+                </form>
+                <div id="orderTrackResult" style="padding-left:10px;padding-bottom:40px">
+
+                </div>
+            </div>
+        </div>
+
+        <div id="selectTime" class="tab-pane fade">
+            <div class="row content-main-panel">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label class="control-label">原寄地:</label>
+                        <div style="padding-top: 10px;position: relative;">
+                            <input readonly  type="text" class="form-control" placeholder="请选择寄出的地址" id="fromAddress" required data-toggle="city-picker">
+                        </div>
+                        <label class="control-label">目的地:</label>
+                        <div style="padding-top: 10px;position: relative">
+                            <input readonly type="text" class="form-control" placeholder="请选择目的地地区" id="toAddress" required data-toggle="city-picker">
+                        </div>
+                        <label class="control-label">重量:</label>
+                        <div style="padding-top: 10px;">
+                            <input type="number" class="form-control" value="1" step="0.5" id="goodWeight" required>
+                        </div>
+                        <div style="padding-top: 10px;padding-left: 10px">
+                            <button type="button" class="btn btn-primary" onclick="selectTime()" >查询</button>
+                        </div>
+                    </div>
+                </form>
+                <div id="selectTimeResult" style="padding-left:10px;padding-bottom:40px">
+
+                </div>
+            </div>
+        </div>
+
+        <div id="selectRange" class="tab-pane fade">
+            <div class="row content-main-btn">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label class="control-label">选择收寄件区域:</label>
+                        <div style="padding-top: 10px;position: relative;">
+                            <input readonly  type="text" class="form-control" placeholder="例如：重庆市/南岸区" id="addressRange" required data-toggle="city-picker">
+                        </div>
+                        <div style="padding-top: 10px;padding-left: 10px">
+                            <button type="button" class="btn btn-primary" onclick="selectRange()">查询</button>
+                        </div>
+                    </div>
+                </form>
+                <div id="selectRangeResult" style="padding-left:10px;padding-bottom:40px">
+
+                </div>
+            </div>
+
+        </div>
+
+        <div id="selectRule" class="tab-pane fade">
+            <div class="row content-main-btn">
+                <div>
+                    <form class="form-horizontal" role="form" id="selectRuleForm">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">物品名称:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="dangerGoodsName" id="dangerGoodsName" placeholder="示例：电池" required>
+                            </div>
+                            <div class="col-sm-2" style="padding-top: 3px;padding-left: 20px">
+                                <button type="button" class="btn btn-primary" onclick="selectRule()">查询</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div id="selectRuleResult" style="padding-left:10px;padding-bottom:40px">
+
+                </div>
+                <div style="background-color: #FFF;border-radius: 4px;padding: 20px;" class=" main-content-row news-content content-page ">
+                    <p>收寄原则：</p>
+                    <p>一、禁止收寄：禁止收取易燃、易爆、易腐蚀、有毒、放射性及违法物品。</p>
+                    <p>二、限制收寄：</p>
+                    <ol><ol><ol>
+                        <li>尺寸和重量：
+                            <p>①陆运快件：单件计费重量不超过130KG或三边（长、宽、高）分别不超过2.5米、1.5米、1.5米；</p>
+                            <p>②航空快件：单件计费重量不超过80KG或三边（长、宽、高）分别不超过2.5米、1米、0.8米；</p>
+                            <p>特殊说明：顺丰时效产品需按照各时效产品的重量及尺寸要求执行。</p>
+                        </li>
+                        <li>航空限制：原商业包装液体、膏状、粉末类食品可通过航空方式发运，如原包装的奶粉、咖啡粉、保健品、矿泉水等；非商业原包装的其它液体、膏状、粉末类物品需提供《鉴定报告书》在发运机场报备通过后方可发运航空。</li>
+                        <li>化工类：除日用化工品外（如牙膏、洗面奶、洗洁精、化妆品），其它化工类物品需提供安全属性证明材料，确认安全后，将证明材料随货寄出。若需要通过航空发运的，需提供《鉴定报告书》在发运机场报备通过后方可发运航空。</li>
+                        <li>活体动物类：除大闸蟹、甲鱼、大龙虾外，其它活物体动物禁止收寄。</li>
+                        <li>电池类：
+                            <p>①航空收寄标准：</p>
+                            <p>&nbsp;&nbsp;&nbsp;&nbsp;检测报告：必须提供符合UN38.3测试和1.2米跌落试验相关检查报告；</p>
+                            <p>&nbsp;&nbsp;&nbsp;&nbsp;报备：提供检测报告原件向机场安检报备通过后方可发运；</p>
+                            <p>&nbsp;&nbsp;&nbsp;&nbsp;包装：必须为商业包装，每台电子产品最多配2块电池，且机电分离，电池须独立密封包装；机电一体的电子产品须关机。</p>
+                            <p>②电池禁收：禁止收取摩托车、汽车、电动车（含电动单车、三轮车、平衡车）的蓄电池，禁止收取额定能量大于100WH（瓦/小时）的锂电池或充电宝。</p>
+                        </li>
+                        <li>生鲜、时令水果类：为保证物品运输品质，部分时令蔬果类单票不能超过5KG，大闸蟹单票不能超过10KG，如超出需分票寄递，各地如有特殊要求，以当地收派员核实为准。</li>
+                    </ol></ol></ol>
+                    <p>三、说明：</p>
+                    <p>1、青海玉树、西藏地区暂只开通航空线路，快件需按照航空件的收寄标准执行。</p>
+                    <p>2、在物品名称中未搜索到的物品原则上都可寄递，具体以收派员上门核实为准。</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<!--<script type="text/javascript" src="../../assets/js/plugins/require.js"></script>-->
+<script src="http://hovertree.com/ziyuan/jquery/jquery-1.12.1.min.js"></script>
+<script src="http://hovertree.com/ziyuan/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="http://hovertree.com/texiao/bootstrap/4/js/city-picker.data.js"></script>
+<script src="http://hovertree.com/texiao/bootstrap/4/js/city-picker.js"></script>
+<script src="http://hovertree.com/texiao/bootstrap/4/js/main.js"></script>
+<script type="text/javascript" src="../../assets/js/app/home.js"></script>
+<!--<script type="text/javascript">
+    require(['../../assets/js/common.js'], function () {
+        require(['app/home']);
+    });
+</script>-->
+</body>
+
+</html>
